@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import './Navbar.css'
 import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated'
 import useSignOut from 'react-auth-kit/hooks/useSignOut'
@@ -7,6 +8,7 @@ import useSignOut from 'react-auth-kit/hooks/useSignOut'
 export const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const isAuthenticated = useIsAuthenticated()
+    const navigate = useNavigate()
     const signOut = useSignOut()
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
@@ -44,7 +46,7 @@ export const Navbar = () => {
                             onClick={() => {
                                 closeMenu()
                                 signOut()
-                                window.location.reload()
+                                navigate('/home')
                             }}
                         >
                             Sign out
