@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import { TravelService } from '../../services/travelService.js'
 import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated'
 import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 import { Link } from 'react-router-dom'
@@ -8,7 +8,6 @@ import './Yourtravels.css'
 
 export const Yourtravels = () => {
     const authHeader = useAuthHeader()
-    const apiUrl = import.meta.env.VITE_API_URL
 
     const [travels, setTravels] = useState([])
     const [loading, setLoading] = useState(true)
@@ -18,12 +17,8 @@ export const Yourtravels = () => {
     useEffect(() => {
         const fetchTravels = async () => {
             try {
-                const response = await axios.get(`${apiUrl}/travels`, {
-                    headers: {
-                        Authorization: authHeader
-                    }
-                })
-                setTravels(response.data)
+                const data = await TravelService.getAll(authHeader)
+                setTravels(data)
             } catch (err) {
                 if (err.response && err.response.status === 404) {
                     // No travels found — treat it as an empty list, not a hard error
@@ -37,7 +32,7 @@ export const Yourtravels = () => {
         }
 
         fetchTravels()
-    }, [apiUrl, authHeader])
+    }, [authHeader])
 
     if (loading) return <p>Loading your travels...</p>
     if (error) return <p className="error-text">{error}</p>
