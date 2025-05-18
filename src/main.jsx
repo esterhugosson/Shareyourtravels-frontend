@@ -12,7 +12,7 @@ const store = createStore({
   authType:'cookie',
   cookieDomain: window.location.hostname,
   cookieSecure: false, // for development
-});
+})
 
 try {
   createRoot(document.getElementById('root')).render(
