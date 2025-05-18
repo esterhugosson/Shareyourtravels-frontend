@@ -38,7 +38,7 @@ h2 {
 .travel-card h3 {
   margin: 0 0 0.5rem 0;
   font-size: 1.2rem;
-  color: #2c3e50;
+  color: #2c5030;
 }
 
 .travel-card p {
@@ -63,7 +63,7 @@ h2 {
 .travel-list li:last-child a {
   display: inline-block;
   padding: 0.6rem 1rem;
-  background-color: #2d89ef;
+  background-color: #1e6a30;
   color: #fff;
   border-radius: 8px;
   text-decoration: none;
@@ -72,11 +72,16 @@ h2 {
 
 .travel-actions a:hover,
 .travel-list li:last-child a:hover {
-  background-color: #1b6dc1;
+  background-color: #185e33;
 }
 
 .error-text {
   text-align: center;
   color: #c0392b;
   font-weight: bold;
+}
+
+
+#buttonUpdateDel {
+ align-items: end;
 }
