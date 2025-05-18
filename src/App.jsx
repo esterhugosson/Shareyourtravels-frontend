@@ -14,7 +14,7 @@ import { Explore } from './components/Explore/Explore'
 import { Travelform } from './components/Travel/Travelform.jsx'
 import { TravelDetail } from './components/Travel/TravelDetail.jsx'
 import { TravelEdit } from './components/Travel/TravelEdit.jsx'
-import { TravelDelete } from './components/Travel/TravelDelete.jsx'
+import { TravelDelete } from './components/Travel/TravelDelete'
 import { AddPlace } from './components/Travel/AddPlace.jsx'
 import { EditPlace } from './components/Travel/EditPlace.jsx'
 
@@ -48,6 +48,7 @@ function App() {
           <Route path="add-place" element={<AddPlace />} />
           <Route path="edit-place/:placeId" element={<EditPlace />} />
         </Route>
+
 
 
 
