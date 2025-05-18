@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 import axios from 'axios';
 import './Yourtravels.css'
+import { Outlet } from 'react-router-dom'
 
 export const TravelDetail = () => {
   const { id } = useParams();
@@ -95,7 +96,10 @@ export const TravelDetail = () => {
       <button onClick={() => { navigate('/add-place') }}>
         ➕ Add Place
       </button>
+
+      <Outlet />
     </div>
+    
   );
 };
 
