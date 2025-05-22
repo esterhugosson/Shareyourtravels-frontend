@@ -19,9 +19,8 @@ install:
 test:
   stage: test
   image: node:20
-  dependencies:
-    - install
   script:
+    - npm ci
     - npm run test
   cache:
     key: ${CI_COMMIT_REF_SLUG}
