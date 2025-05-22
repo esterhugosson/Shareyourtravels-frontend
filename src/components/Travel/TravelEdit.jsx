@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios';
-import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
-import { TravelService } from '../../services/travelService';
+import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader'
+import { TravelService } from '../../services/travelService'
 
 export const TravelEdit = () => {
-    const { id } = useParams();
-    const navigate = useNavigate();
-    const authHeader = useAuthHeader();
+    const { id } = useParams()
+    const navigate = useNavigate()
+    const authHeader = useAuthHeader()
 
-    const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = import.meta.env.VITE_API_URL
 
     const [formData, setFormData] = useState({
         destination: '',
@@ -20,9 +20,9 @@ export const TravelEdit = () => {
         location: { lat: '', lng: '' }
     });
 
-    const [locationQuery, setLocationQuery] = useState('');
-    const [geoError, setGeoError] = useState('');
-    const [error, setError] = useState('');
+    const [locationQuery, setLocationQuery] = useState('')
+    const [geoError, setGeoError] = useState('')
+    const [error, setError] = useState('')
 
     useEffect(() => {
         const fetchTravel = async () => {
@@ -32,25 +32,25 @@ export const TravelEdit = () => {
                 });
                 setFormData(response.data);
             } catch (err) {
-                setError('Failed to load travel data.');
+                setError('Failed to load travel data.')
             }
         };
 
-        fetchTravel();
-    }, [id, authHeader]);
+        fetchTravel()
+    }, [id, authHeader])
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        const { name, value } = e.target
+        setFormData(prev => ({ ...prev, [name]: value }))
     };
 
     const handleLocationQueryChange = (e) => {
-        setLocationQuery(e.target.value);
+        setLocationQuery(e.target.value)
     };
 
     const handleGeocode = async () => {
         if (!locationQuery.trim()) {
-            setGeoError('Please enter a location to search.');
+            setGeoError('Please enter a location to search.')
             return;
         }
 
