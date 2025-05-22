@@ -43,7 +43,6 @@ function App() {
         <Route path='/travels' element={<Yourtravels />} />
         <Route path='/explore' element={<Explore />} />
         <Route path='/add' element={<Travelform />} />
-        <Route path="/travel/:id" element={<TravelDetail />} />
 
         <Route path="/travel/:id" element={<TravelDetail />}>
           <Route path="edit" element={<TravelEdit />} />
