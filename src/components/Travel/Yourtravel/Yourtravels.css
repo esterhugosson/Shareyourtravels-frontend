@@ -1,0 +1,34 @@
+.view-toggle {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.view-toggle button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #eee;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.view-toggle button.active {
+  background-color: #169672;
+  color: white;
+}
+
+
+.travel-map-container {
+  height: 500px;
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.custom-marker {
+  background-image: url('https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png');
+  background-size: cover;
+  width: 30px;
+  height: 40px;
+}

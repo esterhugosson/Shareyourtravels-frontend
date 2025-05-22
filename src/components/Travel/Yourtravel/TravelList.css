@@ -1,0 +1,50 @@
+.travel-list-personal {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+  list-style: none;
+}
+
+.travel-card-personal {
+  display: block;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  padding: 1rem 1.5rem;
+  text-decoration: none;
+  color: #222;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.travel-card-personal:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.travel-card-personal h3 {
+  margin-top: 0;
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.travel-card-personal p {
+  margin: 0.3rem 0;
+  line-height: 1.4;
+}
+
+.travel-card-personal strong {
+  color: #444;
+}
+
+.add-card {
+  background-color: #f5f5f5;
+  border-style: dashed;
+  color: #666;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 140px;
+}
