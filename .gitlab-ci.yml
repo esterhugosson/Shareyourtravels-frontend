@@ -19,8 +19,14 @@ install:
 test:
   stage: test
   image: node:20
+  dependencies:
+    - install
   script:
     - npm run test
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
 
 # Step 3: Build the project
 build:
