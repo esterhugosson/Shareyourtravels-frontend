@@ -2,6 +2,9 @@
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
 
+//Messages
+import { ToastContainer, Bounce } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 // COMPONENTS //
 import { Home } from './components/Home/Home'
@@ -9,10 +12,10 @@ import { Navbar } from './components/Navbar/Navbar'
 import { Register } from './components/Auth/Register'
 import { Signin } from './components/Auth/Signin'
 import { Youraccount } from './components/Youraccount/Youraccount'
-import { Yourtravels } from './components/Travel/Yourtravels'
+import { Yourtravels } from './components/Travel/Yourtravel/Yourtravels.jsx'
 import { Explore } from './components/Explore/Explore'
-import { Travelform } from './components/Travel/Travelform.jsx'
-import { TravelDetail } from './components/Travel/TravelDetail.jsx'
+import { Travelform } from './components/Travel/Travelform/Travelform.jsx'
+import { TravelDetail } from './components/Travel/SpecTravel/TravelDetail.jsx'
 import { TravelEdit } from './components/Travel/TravelEdit.jsx'
 import { TravelDelete } from './components/Travel/TravelDelete'
 import { AddPlace } from './components/Travel/AddPlace.jsx'
@@ -49,16 +52,21 @@ function App() {
           <Route path="edit-place/:placeId" element={<EditPlace />} />
         </Route>
 
-
-
-
-
-
-
-
-
-
       </Routes>
+
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
 
 
     </>
