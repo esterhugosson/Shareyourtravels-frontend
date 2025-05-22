@@ -1,0 +1,33 @@
+# .gitlab-ci.yml
+stages:
+  - install
+  - test
+  - build
+
+# Step 1: Install dependencies
+install:
+  stage: install
+  image: node:20
+  script:
+    - npm ci
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+
+# Step 2: Run tests
+test:
+  stage: test
+  image: node:20
+  script:
+    - npm run test
+
+# Step 3: Build the project
+build:
+  stage: build
+  image: node:20
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
