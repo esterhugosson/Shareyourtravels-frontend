@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader'
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
+import { toast } from 'react-toastify'
+import './Travelform.css'
 
 export const Travelform = () => {
     const authHeader = useAuthHeader()
-    const user = useAuthUser();
-    const navigate = useNavigate();
+    const user = useAuthUser()
+    const navigate = useNavigate()
 
     const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -18,86 +20,68 @@ export const Travelform = () => {
         startDate: '',
         endDate: '',
         location: { lat: '', lng: '' }
-    });
+    })
 
-    const [locationQuery, setLocationQuery] = useState('');
-    const [geoError, setGeoError] = useState('');
-    const [error, setError] = useState('');
 
     // Handle input change for regular fields
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
+        setFormData(prev => ({ ...prev, [name]: value }))
+    }
 
-    // Handle location search input change
-    const handleLocationQueryChange = (e) => {
-        setLocationQuery(e.target.value);
-    };
-
-    // Geocode using OpenStreetMap Nominatim API
-    const handleGeocode = async () => {
-        if (!locationQuery.trim()) {
-            setGeoError('Please enter a location to search.');
-            return;
-        }
+    const handleDestinationBlur = async () => {
+        if (!formData.destination.trim()) return;
 
         try {
             const response = await axios.get('https://nominatim.openstreetmap.org/search', {
                 params: {
-                    q: locationQuery,
+                    q: formData.destination,
                     format: 'json',
                     limit: 1
                 }
-            });
+            })
 
             if (response.data.length > 0) {
-                const { lat, lon } = response.data[0];
+                const { lat, lon } = response.data[0]
                 setFormData(prev => ({
                     ...prev,
                     location: { lat, lng: lon }
                 }));
-                setGeoError('');
+                toast.success('Coordinates autofilled from destination!')
             } else {
-                setGeoError('Location not found.');
-                setFormData(prev => ({
-                    ...prev,
-                    location: { lat: '', lng: '' }
-                }));
+                toast.warn('Could not find coordinates for this destination.')
             }
-        } catch (error) {
-            setGeoError('Error fetching coordinates.');
-            setFormData(prev => ({
-                ...prev,
-                location: { lat: '', lng: '' }
-            }));
+        } catch (err) {
+            toast.error('Geocoding failed.')
         }
-    };
+    }
+
+
+
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError('');
-
+        e.preventDefault()
+    
         if (!formData.destination || !formData.transport) {
-            setError('Destination and transport type are required.');
-            return;
+            
+            toast.error('Destination and transport type are required.')
+            return
         }
 
         try {
-            const response = await axios.post(`${apiUrl}/travels`, {
+            await axios.post(`${apiUrl}/travels`, {
                 ...formData
             }, {
                 headers: {
                     'Authorization': authHeader,
                     'Content-Type': 'application/json'
                 }
-            });
+            })
 
-            console.log('Travel created:', response.data);
-            navigate('/travels');
+            toast.success('Travel saved!')
+            navigate('/travels')
         } catch (err) {
-            console.error(err);
-            setError('Failed to save travel. Please try again.');
+            toast.error('Failed to save travel. Please try again.')
         }
     };
 
@@ -106,7 +90,6 @@ export const Travelform = () => {
     return (
         <div className="travel-form-container">
             <h2>Add a New Travel</h2>
-            {error && <p className="error-text">{error}</p>}
 
             <form onSubmit={handleSubmit} className="travel-form">
                 <input
@@ -115,6 +98,7 @@ export const Travelform = () => {
                     placeholder="Destination"
                     value={formData.destination}
                     onChange={handleChange}
+                    onBlur={handleDestinationBlur}
                     required
                 />
 
@@ -159,22 +143,12 @@ export const Travelform = () => {
                     />
                 </label>
 
-                {/* Location search */}
-                <label>
-                    Search Location (city or country):
-                    <input
-                        type="text"
-                        value={locationQuery}
-                        onChange={handleLocationQueryChange}
-                        placeholder="Enter city or country"
-                    />
-                    <button type="button" onClick={handleGeocode}>Get Coordinates</button>
-                </label>
-                {geoError && <p className="error-text">{geoError}</p>}
 
-                {/* Show lat/lng if available */}
+
                 {formData.location.lat && formData.location.lng && (
-                    <p>Coordinates: Latitude: {formData.location.lat}, Longitude: {formData.location.lng}</p>
+                    <p className="info-note">
+                        📍 Coordinates found: {formData.location.lat}, {formData.location.lng}
+                    </p>
                 )}
 
                 <p className="info-note">
@@ -187,4 +161,4 @@ export const Travelform = () => {
     );
 };
 
-export default Travelform;
+export default Travelform
