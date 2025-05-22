@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import axios, { AxiosError } from 'axios'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import './Auth.css'
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated'
+import { toast } from 'react-toastify'
 
 
 export const Signin = () => {
@@ -13,6 +15,8 @@ export const Signin = () => {
     const [error, setError] = useState('')
     const signIn = useSignIn()
     const isAuthenticated = useIsAuthenticated()
+
+    const navigate = useNavigate()
 
     const apiUrl = import.meta.env.VITE_API_URL
 
@@ -24,8 +28,6 @@ export const Signin = () => {
                 username,
                 password
             })
-
-            console.log('Response:', response);
 
 
             const success = signIn({
@@ -48,7 +50,8 @@ export const Signin = () => {
 
 
             if (success) {
-                window.location.reload() 
+                toast.success('Sign in successful! Welcome.')
+                navigate('/travels')
                 return
             } else {
                 setError('Login failed. Please try again.')
@@ -61,14 +64,18 @@ export const Signin = () => {
         } catch (error) {
             if (error.response) {
                 if (error.response.status === 401) {
-                    setError('False username and/or password.')
+                    //setError('False username and/or password.')
+                    toast.error('False username and/or password.')
                 } else if (error.response.status === 400) {
-                    setError('Invalid input. Please check your information.')
+                    //setError('Invalid input. Please check your information.')
+                    toast.warn('Invalid input. Please check your information.')
                 } else {
-                    setError('Login failed. Please try again later.')
+                    //setError('Login failed. Please try again later.')
+                    toast.error('Login failed. Please try again later.')
                 }
             } else {
-                setError('Network error. Please check your connection.')
+                //setError('Network error. Please check your connection.')
+                toast.error('Network error. Please check your connection.')
 
             }
 

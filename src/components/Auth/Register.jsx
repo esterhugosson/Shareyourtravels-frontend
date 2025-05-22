@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import './Auth.css'
+import { toast } from 'react-toastify'
 
 export const Register = () => {
 
@@ -10,8 +12,9 @@ export const Register = () => {
     const [email, setEmail] = useState('')
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [error, setError] = useState('')
     const [registered, setRegistered] = useState(false)
+
+    const navigate = useNavigate()
 
 
     const apiUrl = import.meta.env.VITE_API_URL
@@ -30,30 +33,27 @@ export const Register = () => {
 
             if (response.status === 201) {
                 setRegistered(true)
-                setError('')
-                // Optional: Clear the form
+                toast.success('Registration successful! Please sign in.')
                 setFirstName('')
                 setLastName('')
                 setEmail('')
                 setUsername('')
                 setPassword('')
+                navigate('/signin')
             }
 
         } catch (error) {
             if (error.response) {
                 if (error.response.status === 409) {
-                    setError('Username and/or email is already registered.')
+                    toast.error('Username or email already exists.')
                 } else if (error.response.status === 400) {
-                    setError('Invalid input. Please check your information.')
+                    toast.warn('Invalid input.')
                 } else {
-                    setError('Registration failed. Please try again later.')
+                    toast.error('Registration failed.')
                 }
             } else {
-                setError('Network error. Please check your connection.')
+                toast.error('Network error.')
             }
-            setSuccess('')
-
-
         }
     }
 
@@ -67,33 +67,41 @@ export const Register = () => {
 
     return (
         <div className='registerContainer'>
+            <h2> Welcome! </h2>
             <form onSubmit={handleSubmit}>
+
+                <div className="nameRow">
                 <input
                     type='text'
-                    placeholder='Firstname'
+                    placeholder='Firstname*'
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                     required
+                    className='nameInput'
                 />
                 <input
                     type='text'
-                    placeholder='Lastname'
+                    placeholder='Lastname*'
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                     required
+                    className='nameInput'
                 />
+                </div>
+
+
+
                 <input
                     type='text'
-                    placeholder='Username'
+                    placeholder='Username*'
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     required
                 />
-                <small>Username must start with a letter and contain 3–256 characters.</small>
 
                 <input
                     type='email'
-                    placeholder='Email'
+                    placeholder='Email*'
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -101,30 +109,22 @@ export const Register = () => {
 
                 <input
                     type='password'
-                    placeholder='Password'
+                    placeholder='Password*'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     minLength={10}
                     maxLength={256}
                     required
                 />
-                <small>Password must be at least 10 characters.</small>
 
                 <button type='submit'>Register</button>
-
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-
             </form>
+
+            <p>Already have an account? <Link to="/signin">Sign in!</Link> </p>
 
         </div>
     )
 
-
-
-
-
-
-
 }
 
-export default Register
+export default Register 
