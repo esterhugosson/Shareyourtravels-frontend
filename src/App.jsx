@@ -21,6 +21,9 @@ import { TravelDelete } from './components/Travel/TravelDelete'
 import { AddPlace } from './components/Travel/AddPlace.jsx'
 import { EditPlace } from './components/Travel/EditPlace.jsx'
 
+//Not found site
+import { NotFound }from './components/404/404NotFound.jsx'
+
 function App() {
 
   return (
@@ -33,7 +36,9 @@ function App() {
 
         <Route path='/home' element={<Home />} />
         <Route path='/' element={<Home />} />
-        <Route path="*" element={<Home />} />
+
+        {/* fallback route */}
+        <Route path="*" element={<NotFound />} />
 
 
         <Route path='/signin' element={<Signin />} />
