@@ -95,6 +95,7 @@ export const Register = () => {
                     type='text'
                     placeholder='Username*'
                     value={username}
+                    minLength={3}
                     onChange={(e) => setUsername(e.target.value)}
                     required
                 />
