@@ -16,10 +16,11 @@ export const Travelform = () => {
     const [formData, setFormData] = useState({
         destination: '',
         transport: '',
-        notes: '',
+        notes: ' ',
         startDate: '',
         endDate: '',
-        location: { lat: '', lng: '' }
+        location: { lat: '', lng: '' },
+        isPublic: false
     })
 
 
@@ -49,7 +50,7 @@ export const Travelform = () => {
                 }));
                 toast.success('Coordinates autofilled from destination!')
             } else {
-                toast.warn('Could not find coordinates for this destination.')
+                toast.error('Could not find coordinates for this destination. Please try to write a valid country/city.')
             }
         } catch (err) {
             toast.error('Geocoding failed.')
@@ -61,10 +62,24 @@ export const Travelform = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-    
+
         if (!formData.destination || !formData.transport) {
-            
+
             toast.error('Destination and transport type are required.')
+            return
+        }
+
+        const start = new Date(formData.startDate)
+        const end = new Date(formData.endDate)
+        const minAllowedDate = new Date('1950-01-01')
+
+        if (start && end && end < start) {
+            toast.error('End date cannot be before start date.')
+            return
+        }
+
+        if (start < minAllowedDate || end < minAllowedDate) {
+            toast.error('Dates must be after January 1, 1950.')
             return
         }
 
@@ -85,7 +100,7 @@ export const Travelform = () => {
         }
     };
 
-    if (!user) return <p>Please sign in to add your travel!</p>;
+    if (!user) return <p>Please sign in to add your travel!</p>
 
     return (
         <div className="travel-form-container">
@@ -130,6 +145,8 @@ export const Travelform = () => {
                         name="startDate"
                         value={formData.startDate}
                         onChange={handleChange}
+                        required
+                        min="1950-01-01"
                     />
                 </label>
 
@@ -140,8 +157,27 @@ export const Travelform = () => {
                         name="endDate"
                         value={formData.endDate}
                         onChange={handleChange}
+                        required
+                        min="1950-01-01"
                     />
                 </label>
+
+                <label className="public-checkbox">
+                    <input
+                        type="checkbox"
+                        name="isPublic"
+                        checked={formData.isPublic}
+                        onChange={(e) =>
+                            setFormData((prev) => ({
+                                ...prev,
+                                isPublic: e.target.checked,
+                            }))
+                        }
+                    />
+                    Make travel public
+                </label>
+
+
 
 
 
