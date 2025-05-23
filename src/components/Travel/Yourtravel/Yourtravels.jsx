@@ -10,6 +10,9 @@ import TravelMap from './TravelMap'
 
 export const Yourtravels = () => {
   const authHeader = useAuthHeader()
+
+  if (!authHeader) return <p>Please sign in to see your travels! <Link to="/signin">Sign in!</Link> </p>
+
   const [view, setView] = useState('list')
   const [travels, setTravels] = useState([])
   const [loading, setLoading] = useState(true)
@@ -35,6 +38,7 @@ export const Yourtravels = () => {
     fetchTravels()
   }, [authHeader])
 
+  
   if (loading) return <p>Loading your travels...</p>
   if (error) return <p className="error-text">{error}</p>
 

@@ -21,6 +21,11 @@ export const TravelDetail = () => {
   const apiUrl = import.meta.env.VITE_API_URL
   let status = 'Private'
 
+  // Defensive check in case authUser is null (e.g., before login or on logout)
+    if (!authHeader) {
+        return <div className="container">You are not logged in.</div>;
+    }
+
   useEffect(() => {
     const fetchTravel = async () => {
       try {
