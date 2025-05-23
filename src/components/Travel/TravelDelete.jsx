@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader'
 import { TravelService } from '../../services/travelService.js'
+import { toast } from 'react-toastify'
 
 export const TravelDelete = () => {
 
@@ -9,7 +10,6 @@ export const TravelDelete = () => {
     const navigate = useNavigate()
     const authHeader = useAuthHeader()
     const [error, setError] = useState(null)
-    const [message, setMessage] = useState('Deleting travel...')
 
     useEffect(() => {
         const deleteTravel = async () => {
@@ -19,12 +19,15 @@ export const TravelDelete = () => {
                 if (response === '' || response === undefined) {
                     // Axios automatically parses empty 204 as empty string
                     setMessage('Travel deleted successfully.')
-                    setTimeout(() => navigate('/travels')) // slight delay for UX
+                    toast.success('Travel deleted successfully.')
+                    setTimeout(() => navigate('/travels')) 
                 } else {
                     setError('Unexpected response from server.')
+                    toast.error('Unexpected response from server. Please try again later.')
                 }
             } catch (err) {
                 setError('Failed to delete travel.')
+                toast.error('Failed to delete travel. Please try again later.')
             }
         };
 
@@ -33,7 +36,7 @@ export const TravelDelete = () => {
 
     if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
-    return <p>{message}</p>
+    return <p></p>
 
 
 }
