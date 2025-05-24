@@ -32,3 +32,25 @@
   width: 30px;
   height: 40px;
 }
+.travel-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.travel-actions a {
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  background-color: #899299;
+  color: white;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.travel-actions a:hover {
+  background-color: #456550;
+  transform: translateY(-2px);
+}
