@@ -66,8 +66,7 @@ export const TravelDetail = () => {
   if (!travel) return <p>Loading...</p>
 
   if(travel.isPublic) {
-
-    let status = 'Public'
+    status = 'Public'
   }
 
   return (
