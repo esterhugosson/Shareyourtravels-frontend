@@ -6,6 +6,7 @@ import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 export const AccountForm = () => {
     const authHeader = useAuthHeader()
@@ -29,50 +30,58 @@ export const AccountForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        try {
-            const updatedUser = {
-                firstName: firstName || currentFirstName,
-                lastName: lastName || currentLastName,
-                username: username || currentUsername,
-                email: email || currentEmail,
-            }
+        const updatedUser = {}
+        if (firstName && firstName !== currentFirstName) updatedUser.firstName = firstName
+        if (lastName && lastName !== currentLastName) updatedUser.lastName = lastName
+        if (username && username !== currentUsername) updatedUser.username = username
+        if (email && email !== currentEmail) updatedUser.email = email
 
-            await axios.patch(
+        if (Object.keys(updatedUser).length === 0) {
+            toast.info('No changes to update')
+            return
+        }
+
+        try {
+            const response = await axios.patch(
                 `${apiUrl}/auth/update`,
                 updatedUser,
                 {
                     headers: {
-                        'Authorization': authHeader,
-                        'Content-Type': 'application/json'
+                        'Authorization': authHeader
                     }
                 }
             )
 
-            // After successful patch
-            signIn({
-                token: authUser.token,
-                expiresIn: 3600, // or your expiration time
-                tokenType: 'Bearer',
-                authState: {
-                    ...authUser,
-                    firstName: updatedUser.firstName,
-                    lastName: updatedUser.lastName,
-                    username: updatedUser.username,
-                    email: updatedUser.email
-                }
+            if(response.status===200){signIn({
+                auth: {
+                    token: authHeader.replace('Bearer ', ''),
+                    type: "Bearer"
+                },
+                expiresIn: 60,
+                userState: {
+                    firstName: response.data.user.firstName,
+                    lastName: response.data.user.lastName,
+                    username: response.data.user.username,
+                    email: response.data.user.email,
+                    userId: response.data.user.id,
+                },
+                refreshToken: ' ',
+                refreshTokenExpireIn: 1440
             })
-
-
-
+}
             toast.success('Account updated successfully')
-            navigate(0) // reload page to reflect changes (or you can refresh auth state if supported)
+            setTimeout(() => navigate('/account'), 1000)
         } catch (error) {
-            toast.error('Failed to update account')
+            console.error(error)
+            toast.error('Failed to update account' )
         }
     }
 
+
     return (
         <div className='container'>
+            <Link to="/account" className="back-button">← Back to Account</Link>
+
             <form onSubmit={handleSubmit}>
                 <div className="nameRow">
                     <input
