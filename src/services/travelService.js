@@ -34,7 +34,7 @@ export const TravelService = {
     const response = await axios.delete(`${baseUrl}/${id}`, {
       headers: { Authorization: authHeader },
     });
-    return response.data;
+    return response.status;
   },
 
   // etc...
