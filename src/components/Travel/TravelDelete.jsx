@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader'
 import { TravelService } from '../../services/travelService.js'
@@ -14,25 +14,25 @@ export const TravelDelete = () => {
     useEffect(() => {
         const deleteTravel = async () => {
             try {
-                const response = await TravelService.delete(id, authHeader);
+                const responseStatus = await TravelService.delete(id, authHeader);
 
-                if (response === '' || response === undefined) {
-                    // Axios automatically parses empty 204 as empty string
-                    setMessage('Travel deleted successfully.')
-                    toast.success('Travel deleted successfully.')
-                    setTimeout(() => navigate('/travels')) 
+                if (responseStatus === 204) {
+                    toast.success('Travel deleted successfully.');
+                    setTimeout(() => navigate('/travels'), 1000)
                 } else {
-                    setError('Unexpected response from server.')
-                    toast.error('Unexpected response from server. Please try again later.')
+                    setError('Unexpected response from server.');
+                    toast.error('Unexpected response from server. Please try again later.');
                 }
             } catch (err) {
                 setError('Failed to delete travel.')
                 toast.error('Failed to delete travel. Please try again later.')
+                console.error(err)
             }
         };
 
-        deleteTravel();
+        deleteTravel()
     }, [id, authHeader, navigate])
+
 
     if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
