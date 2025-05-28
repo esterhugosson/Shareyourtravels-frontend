@@ -15,6 +15,21 @@ export const TravelEdit = () => {
     const user = useAuthUser()
     const [travel, setTravel] = useState(null)
 
+    const [destination, setDestination] = useState('')
+    const [transport, setTransport] = useState('')
+    const [notes, setNotes] = useState('')
+    const [endDate, setEndDate] = useState('')
+    const [startDate, setStartDate] = useState('')
+    const [location, setLocation] = useState({ lat: '', lng: '' })
+    const [isPublic, setIsPublic] = useState(false)
+
+    const toInputDateFormat = (isoDateStr) => {
+        if (!isoDateStr) return ''
+        return isoDateStr.split('T')[0]
+    }
+
+
+
     useEffect(() => {
         const fetchTravel = async () => {
             try {
@@ -35,9 +50,10 @@ export const TravelEdit = () => {
             setDestination(travel.destination || '')
             setTransport(travel.transport || '')
             setNotes(travel.notes || '')
-            setStartDate(travel.startDate || '')
-            setEndDate(travel.endDate || '')
-            setLocation(travel.location || { lat: '', lng: '' })
+            setStartDate(toInputDateFormat(travel.startDate) || '')
+            setEndDate(toInputDateFormat(travel.endDate) || '')
+            setLocation(travel.location || { lat: '', lng: '' }),
+            setIsPublic(travel.isPublic)
         }
     }, [travel])
 
@@ -46,12 +62,9 @@ export const TravelEdit = () => {
 
 
 
-    const [destination, setDestination] = useState('')
-    const [transport, setTransport] = useState('')
-    const [notes, setNotes] = useState('')
-    const [endDate, setEndDate] = useState('')
-    const [startDate, setStartDate] = useState('')
-    const [location, setLocation] = useState({ lat: '', lng: '' })
+
+
+
 
     if (!travel) return <div>Loading travel details...</div>;
 
@@ -101,6 +114,9 @@ export const TravelEdit = () => {
             updatedTravel.location = location;
         }
 
+        if (isPublic !== travel.isPublic) updatedTravel.isPublic = isPublic;
+
+
 
         if (Object.keys(updatedTravel).length === 0) {
             toast.info('No changes to update')
@@ -112,7 +128,11 @@ export const TravelEdit = () => {
 
 
             toast.success('Travel updated successfully')
-            setTimeout(() => navigate(`/travel/${id}`), 1000, window.location.reload())
+            setTimeout(() => {
+                navigate(`/travel/${id}`)
+                window.location.reload()
+            }, 2000)
+
 
         } catch (error) {
             console.error(error)
@@ -179,6 +199,18 @@ export const TravelEdit = () => {
                         📍 Coordinates: {location.lat}, {location.lng}
                     </p>
                 )}
+
+                <label className="public-checkbox">
+                    <input
+                        type="checkbox"
+                        name="isPublic"
+                        checked={isPublic}
+                        onChange={(e) =>
+                            setIsPublic(e.target.checked)
+                        }
+                    />
+                    Make travel public
+                </label>
 
 
                 <button type="submit">Update</button>
