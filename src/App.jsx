@@ -20,6 +20,7 @@ import { TravelEdit } from './components/Travel/TravelEdit.jsx'
 import { TravelDelete } from './components/Travel/TravelDelete'
 import { AddPlace } from './components/Travel/AddPlace.jsx'
 import { EditPlace } from './components/Travel/EditPlace.jsx'
+import {AccountForm} from './components/Youraccount/updateAccount.jsx'
 
 //Not found site
 import { NotFound }from './components/404/404NotFound.jsx'
@@ -45,6 +46,7 @@ function App() {
         <Route path='/register' element={<Register />} />
 
         <Route path='/account' element={<Youraccount />} />
+        <Route path='/edit' element={<AccountForm />} />
         <Route path='/travels' element={<Yourtravels />} />
         <Route path='/explore' element={<Explore />} />
         <Route path='/add' element={<Travelform />} />
