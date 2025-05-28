@@ -9,6 +9,11 @@ export const TravelDelete = () => {
     const { id } = useParams()
     const navigate = useNavigate()
     const authHeader = useAuthHeader()
+
+    if (!authHeader) {
+        return <div className="container">You are not logged in.</div>;
+    }
+    
     const [error, setError] = useState(null)
 
     useEffect(() => {
