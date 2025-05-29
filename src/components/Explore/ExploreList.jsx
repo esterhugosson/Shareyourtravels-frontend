@@ -8,24 +8,26 @@ const ExploreList = ({ travels, expandedId, setExpandedId }) => {
   const [loadingPlaces, setLoadingPlaces] = useState(false)
 
   const toggleDetails = async (id) => {
-    if (expandedId === id) {
-      setExpandedId(null)
-    } else {
-      setExpandedId(id)
+  if (expandedId === id) {
+    setExpandedId(null)
+  } else {
+    setExpandedId(id)
 
-      if (!placesByTravel[id]) {
-        try {
-          setLoadingPlaces(true)
-          const places = await PlaceService.getAllPublicPlaces(id)
-          setPlacesByTravel(prev => ({ ...prev, [id]: places }))
-        } catch (err) {
-          toast.error('Could not load places for this travel. Try again later')
-        } finally {
-          setLoadingPlaces(false)
-        }
+    if (!placesByTravel[id]) {
+      try {
+        setLoadingPlaces(true)
+        const allPlaces = await PlaceService.getAllPublicPlaces(id)
+        const filteredPlaces = allPlaces.filter(place => place.travelId === id)
+        setPlacesByTravel(prev => ({ ...prev, [id]: filteredPlaces }))
+      } catch (err) {
+        toast.error('Could not load places for this travel. Try again later')
+      } finally {
+        setLoadingPlaces(false)
       }
     }
   }
+}
+
 
   return (
     <ul className="travel-list-explore">
