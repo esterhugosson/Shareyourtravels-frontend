@@ -2,11 +2,10 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import { TravelService } from '../../services/travelService';
+import { TravelService } from '../../../../services/travelService';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import './Travelform/Travelform.css'
-import { formatDate } from '../../services/formatDate';
+import { formatDate } from '../../../../services/formatDate';
 
 export const TravelEdit = () => {
     const { id } = useParams()

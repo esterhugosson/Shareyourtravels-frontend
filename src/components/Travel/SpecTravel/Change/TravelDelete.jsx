@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader'
-import { TravelService } from '../../services/travelService.js'
+import { TravelService } from '../../../../services/travelService.js'
 import { toast } from 'react-toastify'
 
 export const TravelDelete = () => {
