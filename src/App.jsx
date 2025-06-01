@@ -37,6 +37,7 @@ function App() {
 
         <Route path='/home' element={<Home />} />
         <Route path='/' element={<Home />} />
+        <Route path='/signout' element={<Home />} />
 
         {/* fallback route */}
         <Route path="*" element={<NotFound />} />
