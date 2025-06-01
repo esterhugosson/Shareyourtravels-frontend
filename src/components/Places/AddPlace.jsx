@@ -86,7 +86,10 @@ export const AddPlace = () => {
                         })
 
                         toast.success('Place saved!')
-                        navigate(`/travel/${id}`)
+                        setTimeout(() => {
+                                navigate(`/travel/${id}`)
+                                window.location.reload()
+                        }, 2000)
                 } catch (err) {
                         toast.error('Failed to save travel. Please try again.')
                 }
